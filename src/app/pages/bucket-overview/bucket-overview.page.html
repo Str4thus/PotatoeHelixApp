@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>bucket-overview</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <buckets #bucketList></buckets>
+
+  <ion-fab vertical="center" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addBucket()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-button (click)="clear()"> Clear Cache </ion-button>
+</ion-content>
