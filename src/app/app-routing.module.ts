@@ -15,12 +15,13 @@ const routes: Routes = [
     canActivate: [AuthService]
   },
   {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    path: 'bucket-add',
+    loadChildren: () => import('./pages/bucket-add/bucket-add.module').then( m => m.BucketAddPageModule),
+    canActivate: [AuthService]
   },
   {
-    path: 'bucket-add',
-    loadChildren: () => import('./pages/bucket-add/bucket-add.module').then( m => m.BucketAddPageModule)
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
 ];
 

@@ -10,19 +10,25 @@ import { NavController } from '@ionic/angular';
 })
 export class BucketAdderComponent implements OnInit {
 
-  bucket: BucketModel = { title: '' }
+  private bucket: BucketModel = { title: '' }
+  private errorMessage: string;
 
   constructor(private bucketService: BucketsService, private navCtrl: NavController) { }
 
   ngOnInit() { }
 
   create() {
-    console.log("creating!");
-    console.log(this.bucket);
     this.bucketService.createBucket(this.bucket).subscribe(data => {
       this.navCtrl.pop();
     }, err => {
-      console.log(err)
+      switch (err.status) {
+        case 400:
+          
+          break;
+        default:
+          this.errorMessage = "Ein unbekannter Fehler ist aufgetreten (" + err.status + ")";
+          break;
+      }
     })
   }
 }
