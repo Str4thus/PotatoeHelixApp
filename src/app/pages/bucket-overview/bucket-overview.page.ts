@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChildren, ViewChild } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { BucketsComponent } from 'src/app/components/buckets/buckets.component';
 
@@ -11,14 +10,14 @@ import { BucketsComponent } from 'src/app/components/buckets/buckets.component';
   styleUrls: ['./bucket-overview.page.scss'],
 })
 export class BucketOverviewPage implements OnInit {
-  @ViewChild('bucketList', { static: true }) bucketsComponent: BucketsComponent;
+  @ViewChild(BucketsComponent, { static: true }) bucketsComponent: BucketsComponent;
 
   constructor(private authService: AuthService, private storage: Storage, private navCtrl: NavController) { }
 
   ngOnInit() { }
 
   ionViewWillEnter() {
-    this.bucketsComponent.retrieveBuckets();
+    this.bucketsComponent.loadBuckets();
   }
 
   clear() {

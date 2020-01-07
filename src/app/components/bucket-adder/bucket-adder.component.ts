@@ -18,12 +18,12 @@ export class BucketAdderComponent implements OnInit {
   ngOnInit() { }
 
   create() {
-    this.bucketService.createBucket(this.bucket).subscribe(data => {
+    this.bucketService.createBucket(this.bucket).subscribe(_ => {
       this.navCtrl.pop();
     }, err => {
       switch (err.status) {
         case 400:
-          
+          this.errorMessage = "Nicht alle erforderlichen Felder wurden ausgefüllt!";
           break;
         default:
           this.errorMessage = "Ein unbekannter Fehler ist aufgetreten (" + err.status + ")";

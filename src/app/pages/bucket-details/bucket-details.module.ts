@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { BucketDetailsPageRoutingModule } from './bucket-details-routing.module';
 
 import { BucketDetailsPage } from './bucket-details.page';
+import { BucketEditorComponent } from 'src/app/components/bucket-editor/bucket-editor.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { BucketDetailsPage } from './bucket-details.page';
     IonicModule,
     BucketDetailsPageRoutingModule
   ],
-  declarations: [BucketDetailsPage]
+  declarations: [BucketDetailsPage, BucketEditorComponent]
 })
 export class BucketDetailsPageModule {}

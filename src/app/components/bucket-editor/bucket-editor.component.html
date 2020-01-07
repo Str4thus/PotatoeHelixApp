@@ -1,3 +1,118 @@
-<p>
-  bucket-editor works!
-</p>
+<ion-row>
+  <ion-col class="ion-text-center">
+    <ion-input style="font-size: 2.5em;" placeholder="fehlender Titel" class="ion-text-center"
+      [(ngModel)]="editableBucket.title">
+    </ion-input>
+  </ion-col>
+</ion-row>
+
+<ion-row>
+  <ion-col class="ion-text-center">
+    <ion-chip style="font-size: 1.5em;" [color]="getStatusColor()" (click)="toggleDone()">
+      <ion-label [color]="getStatusColor()">{{getStatusText()}}</ion-label>
+    </ion-chip>
+  </ion-col>
+</ion-row>
+
+<ion-item-group>
+  <ion-item-divider>
+    <ion-label>
+      Datum
+    </ion-label>
+  </ion-item-divider>
+  <ion-item>
+    <div *ngIf="editableBucket.date;then filledDate else emptyDate"></div>
+  </ion-item>
+
+  <ion-item-divider>
+    <ion-label>
+      Notizen
+    </ion-label>
+  </ion-item-divider>
+  <ion-item>
+    <div *ngIf="editableBucket.notes;then filledNotes else emptyNotes"></div>
+  </ion-item>
+
+  <ion-item-divider>
+    <ion-label>
+      Bilder
+    </ion-label>
+  </ion-item-divider>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-img
+          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fdesign-n-code%2F100%2F272127c4-8d19-4bd3-bd22-2b75ce94ccb4-512.png&f=1&nofb=1">
+        </ion-img>
+      </ion-col>
+
+      <ion-col>
+        <ion-img
+          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fdesign-n-code%2F100%2F272127c4-8d19-4bd3-bd22-2b75ce94ccb4-512.png&f=1&nofb=1">
+        </ion-img>
+      </ion-col>
+
+      <ion-col>
+        <ion-img
+          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fdesign-n-code%2F100%2F272127c4-8d19-4bd3-bd22-2b75ce94ccb4-512.png&f=1&nofb=1">
+        </ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-img
+          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fdesign-n-code%2F100%2F272127c4-8d19-4bd3-bd22-2b75ce94ccb4-512.png&f=1&nofb=1">
+        </ion-img>
+      </ion-col>
+
+      <ion-col>
+        <ion-img
+          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fdesign-n-code%2F100%2F272127c4-8d19-4bd3-bd22-2b75ce94ccb4-512.png&f=1&nofb=1">
+        </ion-img>
+      </ion-col>
+
+      <ion-col>
+        <ion-img
+          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fdesign-n-code%2F100%2F272127c4-8d19-4bd3-bd22-2b75ce94ccb4-512.png&f=1&nofb=1">
+        </ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-img
+          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fdesign-n-code%2F100%2F272127c4-8d19-4bd3-bd22-2b75ce94ccb4-512.png&f=1&nofb=1">
+        </ion-img>
+      </ion-col>
+
+      <ion-col>
+        <ion-img
+          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fdesign-n-code%2F100%2F272127c4-8d19-4bd3-bd22-2b75ce94ccb4-512.png&f=1&nofb=1">
+        </ion-img>
+      </ion-col>
+
+      <ion-col>
+        <ion-img
+          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Fdesign-n-code%2F100%2F272127c4-8d19-4bd3-bd22-2b75ce94ccb4-512.png&f=1&nofb=1">
+        </ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item-group>
+
+
+<ng-template #filledNotes>
+  <ion-textarea rows="4" cols="20" [value]="editableBucket.notes" placeholder="Keine Notizen ..."></ion-textarea>
+</ng-template>
+<ng-template #emptyNotes>
+  <ion-textarea rows="4" cols="20" placeholder="Keine Notizen ..."></ion-textarea>
+</ng-template>
+
+
+<ng-template #filledDate>
+  <ion-datetime dayNames="[Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]"
+    displayFormat="DDDD, DD.MM.YYYY" placeholder="Kein Datum ausgewählt" [value]="editableBucket.date"></ion-datetime>
+</ng-template>
+<ng-template #emptyDate>
+  <ion-datetime dayNames="[Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]"
+    displayFormat="DDDD, DD.MM.YYYY" placeholder="Kein Datum ausgewählt"></ion-datetime>
+</ng-template>

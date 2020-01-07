@@ -19,21 +19,21 @@ export class ApiService {
 
   constructor(private browserHttp: HttpClient, private nativeHttp: HTTP, private plt: Platform) { }
 
-  get(endpoint: Endpoints, params: any = {}, headers: any = {}) {
+  get(endpoint: Endpoints, params: any = {}) {
     if (this.plt.is("cordova"))
-      return from(this.nativeHttp.get(this.apiRoot + endpoint, params, headers));
+      return from(this.nativeHttp.get(this.apiRoot + endpoint, params, this.defaultHeaders));
     return this.browserHttp.get(this.apiRoot + endpoint, { params: params, headers: this.defaultHeaders });
   }
 
-  post(endpoint: Endpoints, payload: any, headers: any = {}) {
+  post(endpoint: Endpoints, payload: any) {
     if (this.plt.is("cordova"))
-      return from(this.nativeHttp.post(this.apiRoot + endpoint, payload, headers));
+      return from(this.nativeHttp.post(this.apiRoot + endpoint, payload, this.defaultHeaders));
     return this.browserHttp.post(this.apiRoot + endpoint, payload, { headers: this.defaultHeaders });
   }
 
-  patch(endpoint: Endpoints, payload: any, headers: any = {}): Observable<any> {
+  patch(endpoint: Endpoints, payload: any): Observable<any> {
     if (this.plt.is("cordova"))
-      return from(this.nativeHttp.patch(this.apiRoot + endpoint, payload, headers));
+      return from(this.nativeHttp.patch(this.apiRoot + endpoint, payload, this.defaultHeaders));
     return this.browserHttp.patch(this.apiRoot + endpoint, payload, { headers: this.defaultHeaders });
   }
 

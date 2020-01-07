@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BucketsService } from 'src/app/services/buckets.service';
 import { BucketModel } from 'src/app/models/BucketModel';
+import { IonInfiniteScroll, NavController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'buckets',
@@ -8,18 +9,24 @@ import { BucketModel } from 'src/app/models/BucketModel';
   styleUrls: ['./buckets.component.scss'],
 })
 export class BucketsComponent implements OnInit {
-  allBuckets: BucketModel;
+  @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
+  allBuckets: BucketModel[];
+  
+  constructor(private bucketService: BucketsService, private navCtrl: NavController, private plt: Platform) { }
 
-  constructor(private bucketService: BucketsService) { }
+  ngOnInit() { }
 
-  ngOnInit() {}
-
-  retrieveBuckets() {
+  loadBuckets() {
     this.bucketService.getBuckets().subscribe(data => {
-      this.allBuckets = data as BucketModel;
+      this.allBuckets = this.plt.is("cordova") ? JSON.parse(data.data) as BucketModel[] : data as BucketModel[];
     },
       err => {
         console.log(err);
       })
+  }
+
+  viewBucket(bucket: BucketModel) {
+    this.bucketService.selectBucket(bucket);
+    this.navCtrl.navigateForward("bucket-details");
   }
 }

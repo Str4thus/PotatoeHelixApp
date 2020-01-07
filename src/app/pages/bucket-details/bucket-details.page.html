@@ -1,9 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>bucket-details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/bucket-overview"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons *ngIf="bucketEditor.wasBucketEdited()" slot="end">
+      <ion-button (click)="saveBucket()" shape="round" ion-button icon-only>
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Bucket</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <bucket-editor></bucket-editor>
 </ion-content>

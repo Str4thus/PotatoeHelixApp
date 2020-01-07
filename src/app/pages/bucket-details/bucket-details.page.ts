@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { BucketEditorComponent } from 'src/app/components/bucket-editor/bucket-editor.component';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-bucket-details',
@@ -6,10 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./bucket-details.page.scss'],
 })
 export class BucketDetailsPage implements OnInit {
+  @ViewChild(BucketEditorComponent, {static: true}) bucketEditor: BucketEditorComponent;
 
-  constructor() { }
+  constructor(private navCtrl: NavController) { }
 
   ngOnInit() {
   }
 
+  ionViewWillEnter() {
+    this.bucketEditor.initFieldsWithBucketData();
+  }
+
+  saveBucket() {
+    this.bucketEditor.saveBucket();
+    this.navCtrl.pop();
+  }
 }
