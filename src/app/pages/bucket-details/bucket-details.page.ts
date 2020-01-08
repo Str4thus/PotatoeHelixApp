@@ -8,7 +8,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./bucket-details.page.scss'],
 })
 export class BucketDetailsPage implements OnInit {
-  @ViewChild(BucketEditorComponent, {static: true}) bucketEditor: BucketEditorComponent;
+  @ViewChild(BucketEditorComponent, { static: true }) bucketEditor: BucketEditorComponent;
 
   constructor(private navCtrl: NavController) { }
 
@@ -20,7 +20,14 @@ export class BucketDetailsPage implements OnInit {
   }
 
   saveBucket() {
-    this.bucketEditor.saveBucket();
-    this.navCtrl.pop();
+    this.bucketEditor.saveBucket().subscribe(res => {
+      this.navCtrl.pop();
+    });
+  }
+
+  deleteBucket() {
+    this.bucketEditor.deleteBucket().subscribe(res => {
+      this.navCtrl.pop();
+    });
   }
 }

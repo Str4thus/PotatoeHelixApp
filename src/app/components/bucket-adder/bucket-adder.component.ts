@@ -10,7 +10,7 @@ import { NavController } from '@ionic/angular';
 })
 export class BucketAdderComponent implements OnInit {
 
-  private bucket: BucketModel = { title: '' }
+  private bucket: BucketModel = { id: Number.NaN, title: '' }
   private errorMessage: string;
 
   constructor(private bucketService: BucketsService, private navCtrl: NavController) { }

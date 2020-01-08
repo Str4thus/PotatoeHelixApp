@@ -3,8 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/bucket-overview"></ion-back-button>
     </ion-buttons>
-    <ion-buttons *ngIf="bucketEditor.wasBucketEdited()" slot="end">
-      <ion-button (click)="saveBucket()" shape="round" ion-button icon-only>
+    <ion-buttons slot="end">
+      <ion-button (click)="deleteBucket()" shape="round" ion-button icon-only>
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="bucketEditor.wasBucketEdited()" (click)="saveBucket()" shape="round" ion-button icon-only>
         <ion-icon name="checkmark"></ion-icon>
       </ion-button>
     </ion-buttons>

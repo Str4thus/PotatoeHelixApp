@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BucketsService } from 'src/app/services/buckets.service';
 import { BucketModel } from 'src/app/models/BucketModel';
-import { NavController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'bucket-editor',
@@ -20,7 +20,7 @@ export class BucketEditorComponent implements OnInit {
 
   initFieldsWithBucketData(): void {
     this.bucketToEdit = this.bucketService.getSelectedBucket();
-    this.editableBucket = {...this.bucketToEdit} // cloning the bucket to edit to have a work copy
+    this.editableBucket = { ...this.bucketToEdit } // cloning the bucket to edit, to have a work copy
   }
 
   getStatusColor(): string {
@@ -40,11 +40,29 @@ export class BucketEditorComponent implements OnInit {
     }
   }
 
+  formatDate() {
+    let dateFormat = require('dateformat');
+    this.editableBucket.date = dateFormat(new Date(this.editableBucket.date), "yyyy-mm-dd");
+    console.log("changed");
+  }
+
   wasBucketEdited(): boolean {
     return JSON.stringify(this.editableBucket) !== JSON.stringify(this.bucketToEdit);
   }
 
-  saveBucket(): void {
-    console.log("saved!");
+  saveBucket(): Observable<any> {
+    let changes = {}
+
+    for (let prop in this.editableBucket) {
+      if (this.editableBucket.hasOwnProperty(prop) && this.editableBucket[prop] != this.bucketToEdit[prop]) {
+        changes[prop] = this.editableBucket[prop];
+      }
+    }
+
+    return this.bucketService.updateBucket(this.editableBucket.id, changes);
+  }
+
+  deleteBucket(): Observable<any> {
+    return this.bucketService.deleteBucket(this.editableBucket.id);
   }
 }

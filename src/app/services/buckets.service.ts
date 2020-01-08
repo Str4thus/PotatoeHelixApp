@@ -11,20 +11,25 @@ import { Observable } from 'rxjs';
 export class BucketsService {
   private selectedBucket: BucketModel = null;
 
-  constructor(private api: ApiService, private authService: AuthService) { 
-    api.addDefaultHeaders({'Authorization': 'Token ' + this.authService.getToken()});
+  constructor(private api: ApiService, private authService: AuthService) {
+    api.addDefaultHeaders({ 'Authorization': 'Token ' + this.authService.getToken() });
   }
 
   getBuckets(): Observable<any> {
     return this.api.get(Endpoints.BucketList);
   }
 
-  createBucket(bucket: BucketModel): Observable<any>  {
+  createBucket(bucket: BucketModel): Observable<any> {
     return this.api.post(Endpoints.BucketList, bucket);
   }
 
+  updateBucket(bucketId: number, changes: {}): Observable<any> {
+    return this.api.patch(Endpoints.BucketDetails + bucketId + "/", changes)
+  }
 
-
+  deleteBucket(bucketId: number) {
+    return this.api.delete(Endpoints.BucketDetails + bucketId + "/")
+  }
 
   selectBucket(bucket: BucketModel): void {
     this.selectedBucket = bucket;

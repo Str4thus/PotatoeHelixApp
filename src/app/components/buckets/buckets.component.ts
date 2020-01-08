@@ -11,7 +11,7 @@ import { IonInfiniteScroll, NavController, Platform } from '@ionic/angular';
 export class BucketsComponent implements OnInit {
   @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
   allBuckets: BucketModel[];
-  
+
   constructor(private bucketService: BucketsService, private navCtrl: NavController, private plt: Platform) { }
 
   ngOnInit() { }
@@ -19,6 +19,10 @@ export class BucketsComponent implements OnInit {
   loadBuckets() {
     this.bucketService.getBuckets().subscribe(data => {
       this.allBuckets = this.plt.is("cordova") ? JSON.parse(data.data) as BucketModel[] : data as BucketModel[];
+
+      for (let bucketId in this.allBuckets) {
+        this.allBuckets[bucketId] = { id: Number.parseInt(bucketId) + 1, ...this.allBuckets[bucketId] }
+      }
     },
       err => {
         console.log(err);
