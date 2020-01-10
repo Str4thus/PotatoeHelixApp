@@ -6,17 +6,22 @@ import { Observable, from } from 'rxjs';
 
 
 export enum Endpoints {
+  ApiRoot = "https://strathus-dev.me/",
+
   AuthToken = "api-token-auth/",
-  BucketList = "api/buckets/",
-  BucketDetails = "api/buckets/",
+  BucketList = "api/v1/buckets/",
+  BucketDetails = "api/v1/buckets/",
+  MediaUrl = "api/v1/mediaurl/",
+  Images = "api/v1/images/",
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private apiRoot: string = "https://strathus-dev.me/";
+  private apiRoot: string = Endpoints.ApiRoot;
   private defaultHeaders: {} = { 'Content-Type': 'application/json' };
+  private mediaRoot: string = null;
 
   constructor(private browserHttp: HttpClient, private nativeHttp: HTTP, private plt: Platform) { }
 
@@ -51,5 +56,15 @@ export class ApiService {
     }
 
     this.defaultHeaders = { ...this.defaultHeaders, ...additionalHeaders };
+  }
+
+  updateMediaRoot() {
+    this.get(Endpoints.MediaUrl).subscribe(res => {
+      this.mediaRoot = this.plt.is("cordova") ? JSON.parse(res["data"]) as string : res as string;
+    })
+  }
+
+  getMediaRoot(): string {
+    return this.apiRoot + this.mediaRoot;
   }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BucketEditorComponent } from 'src/app/components/bucket-editor/bucket-editor.component';
 import { NavController } from '@ionic/angular';
+import { BucketPhotosComponent } from 'src/app/components/bucket-photos/bucket-photos.component';
+import { DependsOnBucketData } from 'src/app/interfaces/DependsOnBucketData';
 
 @Component({
   selector: 'app-bucket-details',
@@ -12,12 +14,7 @@ export class BucketDetailsPage implements OnInit {
 
   constructor(private navCtrl: NavController) { }
 
-  ngOnInit() {
-  }
-
-  ionViewWillEnter() {
-    this.bucketEditor.initFieldsWithBucketData();
-  }
+  ngOnInit() { }
 
   saveBucket() {
     this.bucketEditor.saveBucket().subscribe(res => {

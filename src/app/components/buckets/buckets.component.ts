@@ -30,7 +30,8 @@ export class BucketsComponent implements OnInit {
   }
 
   viewBucket(bucket: BucketModel) {
-    this.bucketService.selectBucket(bucket);
-    this.navCtrl.navigateForward("bucket-details");
+    this.bucketService.selectBucket(bucket).subscribe(_ => {
+      this.navCtrl.navigateForward("bucket-details");
+    });
   }
 }

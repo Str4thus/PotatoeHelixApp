@@ -4,5 +4,5 @@ export interface BucketModel {
     notes?: string,
     is_done?: boolean,
     date?: string,
-    img?: string
+    images?: {},
 }
