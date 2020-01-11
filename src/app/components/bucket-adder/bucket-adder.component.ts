@@ -19,16 +19,17 @@ export class BucketAdderComponent implements OnInit {
   create() {
     this.toastService.presentToast("Erstelle Bucket...")
     this.bucketService.createBucket(this.bucket)
-      .then(_ => {
+      .then(() => {
         this.toastService.presentToast("Das Bucket wurde erstellt!")
         this.navCtrl.pop();
-      }, err => {
+      })
+      .catch((err) => {
         switch (err.status) {
           case 400:
             this.toastService.presentToast("Nicht alle erforderlichen Felder wurden ausgefüllt!");
             break;
           default:
-            this.toastService.presentToast("Es ist ein Fehler aufgetreten. (ERR-9)");
+            this.toastService.presentToast("Es ist ein Fehler aufgetreten. (ERR-8)");
             break;
         }
       })

@@ -53,9 +53,13 @@ export class ImageService {
     this.toastService.presentToast("Löschen...");
     return this.api.delete(Endpoints.getImageDetailEndpoint(imageId))
       .then((res) => {
-        this.bucketService.reselectCurrentBucket().then(() => {
-          this.toastService.presentToast("Das Bild wurde gelöscht!");
-        });
+        this.bucketService.reselectCurrentBucket()
+          .then(() => {
+            this.toastService.presentToast("Das Bild wurde gelöscht!");
+          });
+      })
+      .catch((err) => {
+        this.toastService.presentToast("Es ist ein Fehler aufgetreten. (ERR-1)")
       });
   }
 }

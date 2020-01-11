@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http/ngx';
 import { Platform } from '@ionic/angular';
+import { ToastService } from '../toast/toast.service';
 
 
 export class Endpoints {
@@ -51,7 +52,8 @@ export class ApiService {
   private apiRoot: string = Endpoints.getApiRoot();
   private defaultHeaders: {} = { 'Content-Type': 'application/json' };
 
-  constructor(private browserHttp: HttpClient, private nativeHttp: HTTP, private plt: Platform) { }
+  constructor(private browserHttp: HttpClient, private nativeHttp: HTTP, private plt: Platform,
+      private toastService: ToastService) { }
 
   async get(endpoint: Endpoints | string, params: any = {}): Promise<any> {
     if (this.plt.is("cordova")) {
@@ -101,6 +103,9 @@ export class ApiService {
     this.get(Endpoints.getMediaUrlQueryEndpoint())
       .then(res => {
         Endpoints.updateMediaRoot(res);
+      })
+      .catch((err) => {
+        this.toastService.presentToast("Es ist ein Fehler aufgetreten. (ERR-11)")
       })
   }
 }

@@ -57,16 +57,18 @@ export class AuthService implements CanActivate {
       password: password,
     }
 
-    return this.api.post(Endpoints.getAuthTokenEndpoint(), credentials).then((data) => {
-      this.token = data["token"];
-      this.storage.set("user-token", this.token);
-    })
+    return this.api.post(Endpoints.getAuthTokenEndpoint(), credentials)
+      .then((data) => {
+        this.token = data["token"];
+        this.storage.set("user-token", this.token);
+      })
   }
 
   async logout(): Promise<any> {
-    return this.storage.remove('user-token').then(() => {
-      this.token = null;
-      this.navCtrl.navigateRoot("login");
-    });
+    return this.storage.remove('user-token')
+      .then(() => {
+        this.token = null;
+        this.navCtrl.navigateRoot("login");
+      });
   }
 }

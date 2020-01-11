@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { BucketsService } from 'src/app/services/buckets/buckets.service';
 import { BucketModel } from 'src/app/models/BucketModel';
 import { IonInfiniteScroll, NavController, Platform } from '@ionic/angular';
+import { ToastService } from 'src/app/services/toast/toast.service';
+import { FilterService } from 'src/app/services/filter/filter.service';
 
 @Component({
   selector: 'buckets',
@@ -10,9 +12,14 @@ import { IonInfiniteScroll, NavController, Platform } from '@ionic/angular';
 })
 export class BucketsComponent implements OnInit {
   @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
-  allBuckets: BucketModel[];
+  private allBuckets: BucketModel[] = []; // stores all buckets, not binded to UI
+  private bucketList: BucketModel[] = []; // gets filtered, binded to UI
 
-  constructor(private bucketService: BucketsService, private navCtrl: NavController, private plt: Platform) { }
+  private initializedWithData: boolean = false;
+  private searchTerm: string = "";
+
+  constructor(private bucketService: BucketsService, private navCtrl: NavController, private plt: Platform,
+    private toastService: ToastService, private filterService: FilterService) { }
 
   ngOnInit() { }
 
@@ -26,7 +33,16 @@ export class BucketsComponent implements OnInit {
           this.allBuckets.unshift(bucket); // newest bucket always at the top
           bucket.notes = bucket.notes || "Keine Notizen ...";
         }
-      });
+
+        this.bucketList = this.allBuckets;
+      })
+      .then(() => {
+        this.initializedWithData = true;
+      })
+  }
+
+  filterBuckets() {
+    this.bucketList = this.filterService.filterBucketsByTitle(this.searchTerm, this.allBuckets);
   }
 
   viewBucket(bucket: BucketModel) {

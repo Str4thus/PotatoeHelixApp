@@ -68,6 +68,9 @@ export class BucketEditorComponent implements OnInit, DependsOnBucketData {
     return this.bucketService.deleteBucket(this.editableBucket.id)
       .then(() => {
         this.toastService.presentToast("Das Bucket wurde gelöscht!");
+      })
+      .catch((err) => {
+        this.toastService.presentToast("Es ist ein Fehler aufgetreten. (ERR-6)")
       });
   }
 

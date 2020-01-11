@@ -1,5 +1,7 @@
-<ion-list>
-  <ion-item *ngFor="let bucket of allBuckets" (click)="viewBucket(bucket)">
+<ion-searchbar placeholder="Buckets filtern" [(ngModel)]="searchTerm" (ionChange)="filterBuckets()"></ion-searchbar>
+
+<ion-list *ngIf="bucketList.length > 0 && initializedWithData">
+  <ion-item *ngFor="let bucket of bucketList" (click)="viewBucket(bucket)">
     <ion-text>
       <h1> {{bucket.title}} </h1>
 
@@ -10,3 +12,13 @@
     </ion-text>
   </ion-item>
 </ion-list>
+
+<div *ngIf="bucketList.length == 0 && initializedWithData" class="ion-text-center" style="margin-top: 20%;">
+  <ion-text color="medium">
+    <h1>Keine Buckets gefunden!</h1>
+  </ion-text>
+</div>
+
+<div *ngIf="!initializedWithData">
+  <ion-spinner class="ion-text-center" name="crescent"></ion-spinner>
+</div>

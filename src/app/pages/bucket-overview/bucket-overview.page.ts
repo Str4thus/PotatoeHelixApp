@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChildren, ViewChild } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { NavController, LoadingController } from '@ionic/angular';
+import { NavController, IonRefresher } from '@ionic/angular';
 import { BucketsComponent } from 'src/app/components/buckets/buckets.component';
 import { ToastService } from 'src/app/services/toast/toast.service';
 
@@ -12,6 +11,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 })
 export class BucketOverviewPage implements OnInit {
   @ViewChild(BucketsComponent, { static: true }) bucketsComponent: BucketsComponent;
+  @ViewChild(IonRefresher, {static: true}) refreshser: IonRefresher;
 
   constructor(private authService: AuthService, private navCtrl: NavController, private toastService: ToastService) { }
 
@@ -37,6 +37,9 @@ export class BucketOverviewPage implements OnInit {
     this.bucketsComponent.loadBuckets()
       .then(() => {
         event.target.complete()
+      })
+      .catch((err) => {
+        this.toastService.presentToast("Es ist ein Fehler aufgetreten. (ERR-9)")
       });
   }
 }

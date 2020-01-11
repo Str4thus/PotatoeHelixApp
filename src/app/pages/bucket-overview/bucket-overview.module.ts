@@ -8,7 +8,6 @@ import { BucketOverviewPageRoutingModule } from './bucket-overview-routing.modul
 
 import { BucketOverviewPage } from './bucket-overview.page';
 import { BucketsComponent } from 'src/app/components/buckets/buckets.component';
-import { BucketAdderComponent } from 'src/app/components/bucket-adder/bucket-adder.component';
 
 @NgModule({
   imports: [

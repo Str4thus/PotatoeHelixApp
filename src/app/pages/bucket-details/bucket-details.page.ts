@@ -21,6 +21,9 @@ export class BucketDetailsPage implements OnInit {
     this.bucketEditor.saveBucket()
       .then(() => {
         this.navCtrl.pop();
+      })
+      .catch((err) => {
+        this.toastService.presentToast("Es ist ein Fehler aufgetreten. (ERR-10)")
       });
   }
 
@@ -32,6 +35,9 @@ export class BucketDetailsPage implements OnInit {
     this.bucketEditor.deleteBucket()
       .then(() => {
         this.navCtrl.pop();
+      })
+      .catch((err) => {
+        this.toastService.presentToast("Es ist ein Fehler aufgetrete. (ERR-2)")
       });
   }
 
