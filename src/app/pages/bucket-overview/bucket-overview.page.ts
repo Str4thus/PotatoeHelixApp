@@ -39,7 +39,8 @@ export class BucketOverviewPage implements OnInit {
         event.target.complete()
       })
       .catch((err) => {
-        this.toastService.presentToast("Es ist ein Fehler aufgetreten. (ERR-9)")
+        event.target.complete();
+        this.toastService.presentToast("Es ist ein Fehler aufgetreten. (ERR-9)");
       });
   }
 }

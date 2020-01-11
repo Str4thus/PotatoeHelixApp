@@ -17,13 +17,18 @@ export class AuthService implements CanActivate {
     this.storage.get("user-token")
       .then((token) => {
         if (token) {
-          this.api.addDefaultHeaders({
-            'Authorization': 'Token ' + token
-          })
-
-          this.api.updateMediaRoot();
+          this.token = token;
+          this.setupApiAuthorization();
         }
       });
+  }
+
+  private setupApiAuthorization() {
+    this.api.addDefaultHeaders({
+      'Authorization': 'Token ' + this.token
+    })
+
+    this.api.updateMediaRoot();
   }
 
   getToken(): string {
@@ -61,6 +66,7 @@ export class AuthService implements CanActivate {
       .then((data) => {
         this.token = data["token"];
         this.storage.set("user-token", this.token);
+        this.setupApiAuthorization();
       })
   }
 
@@ -68,6 +74,7 @@ export class AuthService implements CanActivate {
     return this.storage.remove('user-token')
       .then(() => {
         this.token = null;
+        this.setupApiAuthorization();
         this.navCtrl.navigateRoot("login");
       });
   }
