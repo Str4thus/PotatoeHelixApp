@@ -1,7 +1,7 @@
 <div *ngIf="editableBucket">
   <ion-row>
     <ion-col class="ion-text-center">
-      <ion-input style="font-size: 2.5em;" placeholder="fehlender Titel" class="ion-text-center"
+      <ion-input style="font-size: 2.5em;" placeholder="fehlender Titel" class="ion-text-center bucketTitle"
         [(ngModel)]="editableBucket.title">
       </ion-input>
     </ion-col>
@@ -21,7 +21,9 @@
 
     <ion-item-divider>
       <ion-label>
-        Datum
+        <ion-text color="secondary">
+          Datum
+        </ion-text>
       </ion-label>
     </ion-item-divider>
     <ion-item>
@@ -33,7 +35,9 @@
 
     <ion-item-divider>
       <ion-label>
-        Notizen
+        <ion-text color="secondary">
+          Notizen
+        </ion-text>
       </ion-label>
     </ion-item-divider>
     <ion-item>

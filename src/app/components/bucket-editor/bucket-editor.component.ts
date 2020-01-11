@@ -76,7 +76,7 @@ export class BucketEditorComponent implements OnInit, DependsOnBucketData {
 
 
   getStatusColor(): string {
-    return this.editableBucket.is_done ? "success" : "danger";
+    return this.editableBucket.is_done ? "secondary" : "danger";
   }
 
   getStatusText(): string {
@@ -93,7 +93,9 @@ export class BucketEditorComponent implements OnInit, DependsOnBucketData {
   }
 
   formatDate(date: string) {
-    return this.editableBucket.date = dateformat(new Date(this.editableBucket.date), "yyyy-mm-dd");;
+    if (this.editableBucket.date)
+      this.editableBucket.date = dateformat(new Date(this.editableBucket.date), "yyyy-mm-dd");
+    return this.editableBucket.date;
   }
 
   wasBucketEdited(): boolean {

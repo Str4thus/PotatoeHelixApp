@@ -3,7 +3,9 @@
 <ion-list *ngIf="bucketList.length > 0 && initializedWithData">
   <ion-item *ngFor="let bucket of bucketList" (click)="viewBucket(bucket)">
     <ion-text>
-      <h1> {{bucket.title}} </h1>
+      <ion-text color="secondary">
+        <h1> {{bucket.title}} </h1>
+      </ion-text>
 
       <ion-text color="medium">
         <h4> {{bucket.notes}} </h4>

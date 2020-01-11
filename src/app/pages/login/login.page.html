@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title>Authentifizierung</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -10,14 +10,23 @@
     </ion-item-divider>
 
     <ion-item-divider>
-      <ion-label>Benutzername</ion-label>
+      <ion-label>
+        <ion-text color="secondary">
+          Benutzername
+        </ion-text>
+      </ion-label>
     </ion-item-divider>
     <ion-item>
       <ion-input type="text" [(ngModel)]="username"></ion-input>
     </ion-item>
 
     <ion-item-divider>
-      <ion-label>Passwort</ion-label>
+
+      <ion-label>
+        <ion-text color="secondary">
+          Passwort
+        </ion-text>
+      </ion-label>
     </ion-item-divider>
     <ion-item>
       <ion-input type="password" [(ngModel)]="password"></ion-input>
