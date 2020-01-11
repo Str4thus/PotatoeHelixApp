@@ -1,17 +1,27 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Übersicht</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirmLogout()" shape="round" ion-button icon-only>
+        <ion-icon name="power"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Kartoffelhelix!</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="updateBucketlist($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Aktualisieren" refreshingSpinner="crescent"
+      refreshingText="Lade Buckets...">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <buckets></buckets>
 
-  <ion-fab vertical="center" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addBucket()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
-  <ion-button (click)="clear()"> Clear Cache </ion-button>
 </ion-content>

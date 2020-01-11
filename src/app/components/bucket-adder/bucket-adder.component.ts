@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BucketsService } from 'src/app/services/buckets.service';
+import { BucketsService } from 'src/app/services/buckets/buckets.service';
 import { BucketModel } from 'src/app/models/BucketModel';
 import { NavController } from '@ionic/angular';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'bucket-adder',
@@ -9,26 +10,27 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./bucket-adder.component.scss'],
 })
 export class BucketAdderComponent implements OnInit {
+  private bucket: BucketModel = { title: '' }
 
-  private bucket: BucketModel = { id: Number.NaN, title: '' }
-  private errorMessage: string;
-
-  constructor(private bucketService: BucketsService, private navCtrl: NavController) { }
+  constructor(private bucketService: BucketsService, private navCtrl: NavController, private toastService: ToastService) { }
 
   ngOnInit() { }
 
   create() {
-    this.bucketService.createBucket(this.bucket).subscribe(_ => {
-      this.navCtrl.pop();
-    }, err => {
-      switch (err.status) {
-        case 400:
-          this.errorMessage = "Nicht alle erforderlichen Felder wurden ausgefüllt!";
-          break;
-        default:
-          this.errorMessage = "Ein unbekannter Fehler ist aufgetreten (" + err.status + ")";
-          break;
-      }
-    })
+    this.toastService.presentToast("Erstelle Bucket...")
+    this.bucketService.createBucket(this.bucket)
+      .then(_ => {
+        this.toastService.presentToast("Das Bucket wurde erstellt!")
+        this.navCtrl.pop();
+      }, err => {
+        switch (err.status) {
+          case 400:
+            this.toastService.presentToast("Nicht alle erforderlichen Felder wurden ausgefüllt!");
+            break;
+          default:
+            this.toastService.presentToast("Es ist ein Fehler aufgetreten. (ERR-9)");
+            break;
+        }
+      })
   }
 }

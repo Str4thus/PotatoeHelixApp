@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { Platform } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
+import { AuthService } from '../../services/auth/auth.service';
+import { NavController, LoadingController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -11,35 +12,40 @@ import { Storage } from '@ionic/storage';
 export class LoginPage implements OnInit {
   private username: string;
   private password: string;
-  private loginError: string;
 
-  constructor(private authService: AuthService, private storage: Storage, private plt: Platform) {
-    this.authService.canActivate();
-  }
 
-  ngOnInit() {
-  }
+  constructor(private authService: AuthService, private loadingCtrl: LoadingController,
+    private navCtrl: NavController, private toastService: ToastService) { }
 
-  login() {
+  ngOnInit() { }
+
+  async login() {
     if (this.username && this.password) {
+      let loader = await this.loadingCtrl.create({
+        message: "Einloggen...",
+      })
+      loader.present();
 
-      this.authService.login(this.username, this.password).subscribe(
-        data => {
-          let parsedData = this.plt.is("cordova") ? JSON.parse(data.data) : data;
-          this.storage.set("user-token", parsedData["token"]).then(() => {
-            this.authService.canActivate();
-          });
-        },
-        err => {
+      this.authService.login(this.username, this.password)
+        // success
+        .then(() => {
+          loader.dismiss();
+          this.navCtrl.navigateRoot('bucket-overview');
+        })
+        // error
+        .catch((err) => {
+          loader.dismiss();
+
           switch (err.status) {
             case 400:
-              this.loginError = "Benutzer existiert nicht!"
+              this.toastService.presentToast("Authentifizierung fehlgeschlagen!");
               break;
+
             default:
-              this.loginError = "Ein unbekannter Fehler ist aufgetreten! (" + err.status + ")";
+              this.toastService.presentToast("Es ist ein Fehler aufgetreten. (ERR-3)");
               break;
           }
-        });
+        })
     }
   }
 }

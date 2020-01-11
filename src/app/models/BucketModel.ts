@@ -1,5 +1,5 @@
 export interface BucketModel {
-    id: number,
+    id?: number,
     title: string,
     notes?: string,
     is_done?: boolean,

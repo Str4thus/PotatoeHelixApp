@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { BucketsService } from 'src/app/services/buckets.service';
+import { BucketsService } from 'src/app/services/buckets/buckets.service';
 import { BucketModel } from 'src/app/models/BucketModel';
 import { DependsOnBucketData } from 'src/app/interfaces/DependsOnBucketData';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { ModalController } from '@ionic/angular';
 import { ImageModalPage } from 'src/app/pages/image-modal/image-modal.page';
+import { ImageModel } from 'src/app/models/ImageModel';
+import { ImageService } from 'src/app/services/image/image.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'bucket-photos',
@@ -15,14 +17,16 @@ import { ImageModalPage } from 'src/app/pages/image-modal/image-modal.page';
 export class BucketPhotosComponent implements OnInit, DependsOnBucketData {
   private activeBucket: BucketModel = null;
 
-  constructor(private bucketService: BucketsService, private camera: Camera, private modalController: ModalController) { }
+  constructor(private bucketService: BucketsService, private imageService: ImageService, private camera: Camera, private modalController: ModalController) { }
 
   ngOnInit() {
     this.initFieldsWithBucketData();
   }
 
   initFieldsWithBucketData() {
-    this.activeBucket = this.bucketService.getSelectedBucket();
+    this.bucketService.getSelectedBucket().subscribe((value) => {
+      this.activeBucket = value;
+    });
   }
 
   takePicture() {
@@ -33,12 +37,14 @@ export class BucketPhotosComponent implements OnInit, DependsOnBucketData {
       mediaType: this.camera.MediaType.PICTURE,
     }
 
-    this.camera.getPicture(options).then((imageData) => {
-      let base64Image = imageData;
-      this.bucketService.addImage(base64Image);
-    }, (err) => {
-      console.log(err);
-    });
+    this.camera.getPicture(options)
+      .then((imageData) => {
+        let base64Image = imageData;
+        this.imageService.uploadImage(base64Image)
+          .then(() => {
+            this.bucketService.reselectCurrentBucket();
+          });
+      });
   }
 
   choosePicture() {
@@ -50,19 +56,22 @@ export class BucketPhotosComponent implements OnInit, DependsOnBucketData {
       sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
     }
 
-    this.camera.getPicture(options).then((imageData) => {
-      let base64Image = imageData;
-      this.bucketService.addImage(base64Image);
-    }, (err) => {
-      console.log(err);
-    });
+    this.camera.getPicture(options)
+      .then((imageData) => {
+        let base64Image = imageData;
+        this.imageService.uploadImage(base64Image)
+          .then(() => {
+            this.bucketService.reselectCurrentBucket();
+          });;
+      });
   }
 
-  viewPicture(image: string) {
+  viewPicture(image: ImageModel) {
     this.modalController.create({
       component: ImageModalPage,
       componentProps: {
-        img: image,
+        id: image.id,
+        img: image.image,
       }
     }).then(modal => modal.present());
   }

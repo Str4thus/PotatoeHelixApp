@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { BucketsService } from 'src/app/services/buckets.service';
+import { BucketsService } from 'src/app/services/buckets/buckets.service';
 import { BucketModel } from 'src/app/models/BucketModel';
 import { IonInfiniteScroll, NavController, Platform } from '@ionic/angular';
 
@@ -16,22 +16,26 @@ export class BucketsComponent implements OnInit {
 
   ngOnInit() { }
 
-  loadBuckets() {
-    this.bucketService.getBuckets().subscribe(data => {
-      this.allBuckets = this.plt.is("cordova") ? JSON.parse(data.data) as BucketModel[] : data as BucketModel[];
+  async loadBuckets(): Promise<any> {
+    return this.bucketService.getBuckets()
+      .then((data) => {
+        this.allBuckets = [];
 
-      for (let bucketId in this.allBuckets) {
-        this.allBuckets[bucketId] = { id: Number.parseInt(bucketId) + 1, ...this.allBuckets[bucketId] }
-      }
-    },
-      err => {
-        console.log(err);
-      })
+        data = data as BucketModel[];
+        for (let bucket of data) {
+          this.allBuckets.unshift(bucket); // newest bucket always at the top
+          bucket.notes = bucket.notes || "Keine Notizen ...";
+        }
+      });
   }
 
   viewBucket(bucket: BucketModel) {
-    this.bucketService.selectBucket(bucket).subscribe(_ => {
-      this.navCtrl.navigateForward("bucket-details");
-    });
+    this.bucketService.selectBucket(bucket)
+      .then(() => {
+        if (this.bucketService.getSelectedBucket().getValue())
+          this.navCtrl.navigateForward("bucket-details");
+        else
+          this.loadBuckets();
+      })
   }
 }

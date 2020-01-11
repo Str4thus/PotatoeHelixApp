@@ -13,8 +13,9 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { HTTP } from '@ionic-native/http/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
-import { ApiService } from './services/api.service';
+import { ApiService } from './services/api/api.service';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+import { File } from '@ionic-native/file/ngx';
 import { ImageModalPageModule } from './pages/image-modal/image-modal.module';
 
 @NgModule({
@@ -25,13 +26,16 @@ import { ImageModalPageModule } from './pages/image-modal/image-modal.module';
   providers: [
     StatusBar,
     SplashScreen,
-    ApiService,
-    HTTP,
-    ModalController,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    
+    ApiService,
+    HTTP, 
+    ModalController,
+    
     Camera,
+    File,
     FileTransfer,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

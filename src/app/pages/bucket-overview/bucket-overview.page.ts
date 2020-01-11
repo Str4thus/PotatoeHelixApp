@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChildren, ViewChild } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { AuthService } from 'src/app/services/auth.service';
-import { NavController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { NavController, LoadingController } from '@ionic/angular';
 import { BucketsComponent } from 'src/app/components/buckets/buckets.component';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-bucket-overview',
@@ -12,7 +13,7 @@ import { BucketsComponent } from 'src/app/components/buckets/buckets.component';
 export class BucketOverviewPage implements OnInit {
   @ViewChild(BucketsComponent, { static: true }) bucketsComponent: BucketsComponent;
 
-  constructor(private authService: AuthService, private storage: Storage, private navCtrl: NavController) { }
+  constructor(private authService: AuthService, private navCtrl: NavController, private toastService: ToastService) { }
 
   ngOnInit() { }
 
@@ -20,12 +21,22 @@ export class BucketOverviewPage implements OnInit {
     this.bucketsComponent.loadBuckets();
   }
 
-  clear() {
-    this.storage.clear();
-    this.authService.canActivate();
+  confirmLogout() {
+    this.toastService.presentConfirmationToast("Ausloggen?", this, "logout");
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   addBucket() {
     this.navCtrl.navigateForward("/bucket-add");
+  }
+
+  updateBucketlist(event: any) {
+    this.bucketsComponent.loadBuckets()
+      .then(() => {
+        event.target.complete()
+      });
   }
 }

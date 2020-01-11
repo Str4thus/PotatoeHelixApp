@@ -1,9 +1,22 @@
-<ion-content fullscreen>
-  <ion-item class="ion-text-center">
-    <ion-button (click)="close()" fill="clear">
-      <ion-icon name="close" slot="start"></ion-icon>
-    </ion-button>
-  </ion-item>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()" fill="clear">
+        <ion-icon name="close-circle" slot="start"></ion-icon>
+      </ion-button>
+      <ion-button (click)="downloadImage()" fill="clear">
+        <ion-icon name="download" slot="start"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
+    <ion-buttons slot="end">
+      <ion-button (click)="confirmImageDeletion()" fill="clear">
+        <ion-icon name="trash" slot="end"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
   <ion-img [src]="img"></ion-img>
 </ion-content>

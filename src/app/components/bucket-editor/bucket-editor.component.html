@@ -17,12 +17,18 @@
 
   <ion-item-group>
     <ion-item-divider>
+    </ion-item-divider>
+
+    <ion-item-divider>
       <ion-label>
         Datum
       </ion-label>
     </ion-item-divider>
     <ion-item>
-      <div *ngIf="editableBucket.date;then filledDate else emptyDate"></div>
+      <ion-datetime cancel-text="Abbrechen" [pickerOptions]="pickerOptions"
+        dayNames="[Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]" displayFormat="DDDD, DD.MM.YYYY"
+        placeholder="Kein Datum ausgewählt" [(ngModel)]="editableBucket.date" (ionChange)="formatDate()">
+      </ion-datetime>
     </ion-item>
 
     <ion-item-divider>
@@ -31,26 +37,8 @@
       </ion-label>
     </ion-item-divider>
     <ion-item>
-      <div *ngIf="editableBucket.notes;then filledNotes else emptyNotes"></div>
+      <ion-textarea rows="4" cols="20" [(ngModel)]="editableBucket.notes" placeholder="Keine Notizen ...">
+      </ion-textarea>
     </ion-item>
   </ion-item-group>
 </div>
-
-<ng-template #filledNotes>
-  <ion-textarea rows="4" cols="20" [(ngModel)]="editableBucket.notes" placeholder="Keine Notizen ..."></ion-textarea>
-</ng-template>
-<ng-template #emptyNotes>
-  <ion-textarea rows="4" cols="20" [(ngModel)]="editableBucket.notes" placeholder="Keine Notizen ..."></ion-textarea>
-</ng-template>
-
-
-<ng-template #filledDate>
-  <ion-datetime dayNames="[Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]"
-    displayFormat="DDDD, DD.MM.YYYY" placeholder="Kein Datum ausgewählt" (ionChange)="formatDate()"
-    [(ngModel)]="editableBucket.date"></ion-datetime>
-</ng-template>
-<ng-template #emptyDate>
-  <ion-datetime dayNames="[Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]"
-    displayFormat="DDDD, DD.MM.YYYY" placeholder="Kein Datum ausgewählt" (ionChange)="formatDate()"
-    [(ngModel)]="editableBucket.date"></ion-datetime>
-</ng-template>

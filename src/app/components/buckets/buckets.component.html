@@ -1,19 +1,12 @@
 <ion-list>
-  <ion-item-sliding *ngFor="let bucket of allBuckets" (click)="viewBucket(bucket)" >
-    <ion-item-options side="start">
-      <ion-item-option> Erledigt! </ion-item-option>
-    </ion-item-options>
+  <ion-item *ngFor="let bucket of allBuckets" (click)="viewBucket(bucket)">
+    <ion-text>
+      <h1> {{bucket.title}} </h1>
 
-    <ion-item>
-      <ion-text>
-        <h1> {{bucket.title}} </h1>
-
-        <ion-text color="medium">
-          <h4 *ngIf="bucket.notes"> {{bucket.notes}} </h4>
-          <h4 *ngIf="!bucket.notes"> Keine Notizen ... </h4>
-        </ion-text>
-
+      <ion-text color="medium">
+        <h4> {{bucket.notes}} </h4>
       </ion-text>
-    </ion-item>
-  </ion-item-sliding>
+
+    </ion-text>
+  </ion-item>
 </ion-list>
