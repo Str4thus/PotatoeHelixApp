@@ -10,7 +10,7 @@
     </ion-label>
   </ion-item-divider>
   <ion-item>
-    <ion-input type="text" [(ngModel)]="bucket.title"></ion-input>
+    <ion-input autocapitalize="sentences" type="text" [(ngModel)]="bucket.title"></ion-input>
   </ion-item>
 
   <ion-item-divider>
@@ -37,4 +37,4 @@
   </ion-item>
 </ion-item-group>
 
-<ion-button (click)="create()"> Erstellen </ion-button>
+<ion-button style="margin-top: 5%; margin-bottom: 40%;" (click)="create()"> Erstellen </ion-button>
